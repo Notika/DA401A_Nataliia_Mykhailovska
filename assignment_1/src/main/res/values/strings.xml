@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Assignment_1</string>
+
+    <string name="quoteTxtView">Press to get quote of the day!</string>
+    <string name="getQuoteTxt">GET QUOTE</string>
+    <string name="introTxt">Quote of the day!</string>
+
+
+    <string-array name="quote_txt_array">
+        <item>two beer or not two beer</item>
+        <item>A good friend will help you move. But best friend will help you move a dead body.</item>
+        <item>Without music life would be a mistake.</item>
+    </string-array>
+
+
+</resources>
