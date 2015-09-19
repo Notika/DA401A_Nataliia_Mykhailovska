@@ -26,18 +26,18 @@ public class FragmentStart extends Fragment {
         // Required empty public constructor
     }
 
-    public interface fragmendEventListener {
+    public interface fragmentEventListener {
         void quoteButtonEvent();
     }
 
-    fragmendEventListener buttonEvent;
+    fragmentEventListener buttonEvent;
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
 
         try {
-            buttonEvent = (fragmendEventListener) activity;
+            buttonEvent = (fragmentEventListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString() + "must implement fragmendEventListener");
         }
