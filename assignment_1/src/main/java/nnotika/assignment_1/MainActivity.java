@@ -3,9 +3,9 @@ package nnotika.assignment_1;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
-import nnotika.assignment_1.FragmentStart.fragmendEventListener;
+import nnotika.assignment_1.FragmentStart.fragmentEventListener;
 
-public class MainActivity extends Activity implements fragmendEventListener {
+public class MainActivity extends Activity implements fragmentEventListener {
 
     final String LOG_TAG = "Assignment1";
 
@@ -18,7 +18,7 @@ public class MainActivity extends Activity implements fragmendEventListener {
         FragmentStart frag1 = new FragmentStart();
         getFragmentManager().beginTransaction()
                             .add(R.id.main_container, frag1)
-                            .addToBackStack(null)
+                            //.addToBackStack(null)
                             .commit();
     }
 
