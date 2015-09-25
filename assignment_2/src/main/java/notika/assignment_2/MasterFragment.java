@@ -20,6 +20,7 @@ public class MasterFragment extends Fragment {
     ArrayList<Movie> movies = new ArrayList<>();
     MovieAdapter mAdapter;
     final String LOG_TAG = "Assignment2";
+    Activity a;
 
     public MasterFragment() {
     }
@@ -31,12 +32,13 @@ public class MasterFragment extends Fragment {
     onShowDetailsListener detailsViewEventListener;
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        super.onAttach(context);
         try {
-            detailsViewEventListener = (onShowDetailsListener) activity;
+            a = (Activity) context;
+            detailsViewEventListener = (onShowDetailsListener) a;
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() + " must implement onShowDetailsListener");
+            throw new ClassCastException(a.toString() + " must implement onShowDetailsListener");
         }
     }
 
@@ -50,7 +52,7 @@ public class MasterFragment extends Fragment {
 
         Log.d(LOG_TAG, "Executing MasterFragment onCreate");
 
-        // создаем адаптер
+        // Prepare data and create adapter
         fillData();
         mAdapter = new MovieAdapter(getActivity().getApplicationContext(), movies);
 
