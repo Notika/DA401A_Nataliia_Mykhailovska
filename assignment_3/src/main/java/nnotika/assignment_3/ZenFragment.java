@@ -74,10 +74,10 @@ public class ZenFragment extends Fragment {
                 if (newTask == null) { // a task can be executed only once
                     // Exec async load task
                     newTask = new AsyncListViewLoader();
-                    newTask.execute("https://api.github.com/zen?access_token=0f892e365071c7e778a020e463d715b8ccb816f5");
+                    newTask.execute("https://api.github.com/zen?access_token=5e456ac0f85895163f3a16bc3875ed20e93eeb91");
                 } else if (newTask.getStatus() != AsyncTask.Status.RUNNING) {
                     newTask = new AsyncListViewLoader();
-                    newTask.execute("https://api.github.com/zen?access_token=0f892e365071c7e778a020e463d715b8ccb816f5");
+                    newTask.execute("https://api.github.com/zen?access_token=5e456ac0f85895163f3a16bc3875ed20e93eeb91");
                 }
             }
         });
