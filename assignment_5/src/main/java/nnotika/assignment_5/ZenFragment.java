@@ -135,15 +135,15 @@ public class ZenFragment extends Fragment {
     };
 
     public static void executeTask() {
-        progressBar.setProgress(0);
+        progressBar.setIndeterminate(true);
 
         if (newTask == null) { // a task can be executed only once
             // Exec async load task
             newTask = new AsyncListViewLoader();
-            newTask.execute("https://api.github.com/zen?access_token=5e456ac0f85895163f3a16bc3875ed20e93eeb91");
+            newTask.execute("https://api.github.com/zen?access_token= ?_TOKEN_?");
         } else if (newTask.getStatus() != AsyncTask.Status.RUNNING) {
             newTask = new AsyncListViewLoader();
-            newTask.execute("https://api.github.com/zen?access_token=5e456ac0f85895163f3a16bc3875ed20e93eeb91");
+            newTask.execute("https://api.github.com/zen?access_token=?_TOKEN_?");
         }
     }
 
@@ -152,7 +152,6 @@ public class ZenFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progressBar.setProgress(50);
         }
 
         @Override
@@ -196,7 +195,7 @@ public class ZenFragment extends Fragment {
 
             mAdapter.setItemList(result);
             mAdapter.notifyDataSetChanged();
-            progressBar.setProgress(100);
+            progressBar.setIndeterminate(false);
         }
     }
 
