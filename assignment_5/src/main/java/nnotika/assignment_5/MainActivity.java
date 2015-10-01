@@ -14,10 +14,11 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
     ViewPager viewPager;
     Toolbar toolbar;
     TabLayout tabLayout;
+    int currentPage = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
+        viewPager.addOnPageChangeListener(this);
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
@@ -45,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             // action with ID action_refresh was selected
-            case R.id.action_add:
+            case R.id.action_:
                 ZenFragment.executeTask();
                 break;
 
@@ -60,6 +62,32 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(new ZenFragment(), "QUOTES");
         adapter.addFragment(new MoviesFragment(), "MOVIES");
         viewPager.setAdapter(adapter);
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        invalidateOptionsMenu();
+    }
+
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        int pageNum = currentPage;
+        if (pageNum == 1) {
+            menu.findItem(R.id.action_).setIcon(R.drawable.ic_info_outline_white_48dp);
+
+        } else {
+            menu.findItem(R.id.action_).setIcon(R.drawable.ic_add_circle_white_48dp);
+        }
+        return true;
+    }
+
+    @Override
+    public void onPageSelected(int pageNum) {
+        currentPage = pageNum;
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+        invalidateOptionsMenu();
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <array name="location_1">
+        <!-- String. Longitude --><item>13.236347</item>
+        <!-- String. Latitude --> <item>55.700014</item>
+        <!-- Int. Radius --><item>50</item>
+        <!-- String. Question --><item>Question</item>
+        <!-- String. Alt 1 --><item>Alt 1</item>
+        <!-- String. Alt 2 --><item>Alt 2</item>
+        <!-- String. Alt 3 --><item>Alt 3</item>
+        <!-- Int. Answer --><item>1</item>
+        <!-- Int. Customized location icon --><item>@drawable/ic_stat_name1</item>
+    </array>
+
+    <array name="location_2">
+        <!-- String. Longitude --><item>13.237018</item>
+        <!-- String. Latitude --> <item>55.699706</item>
+        <!-- Int. Radius --><item>50</item>
+        <!-- String. Question --><item>Question</item>
+        <!-- String. Alt 1 --><item>Alt 1</item>
+        <!-- String. Alt 2 --><item>Alt 2</item>
+        <!-- String. Alt 3 --><item>Alt 3</item>
+        <!-- Int. Answer --><item>2</item>
+        <!-- Int. Customized location icon --><item>@drawable/ic_stat_name2</item>
+    </array>
+
+    <array name="location_3">
+        <!-- String. Longitude --><item>13.236876</item>
+        <!-- String. Latitude --> <item>55.699293</item>
+        <!-- Int. Radius --><item>50</item>
+        <!-- String. Question --><item>Question</item>
+        <!-- String. Alt 1 --><item>Alt 1</item>
+        <!-- String. Alt 2 --><item>Alt 2</item>
+        <!-- String. Alt 3 --><item>Alt 3</item>
+        <!-- Int. Answer --><item>2</item>
+        <!-- Int. Customized location icon --><item>@drawable/ic_stat_name3</item>
+    </array>
+
+    <array name="location_4">
+        <!-- String. Longitude --><item>13.235545</item>
+        <!-- String. Latitude --> <item>55.69937</item>
+        <!-- Int. Radius --><item>50</item>
+        <!-- String. Question --><item>Question</item>
+        <!-- String. Alt 1 --><item>Alt 1</item>
+        <!-- String. Alt 2 --><item>Alt 2</item>
+        <!-- String. Alt 3 --><item>Alt 3</item>
+        <!-- Int. Answer --><item>1</item>
+        <!-- Int. Customized location icon --><item>@drawable/ic_stat_name</item>
+    </array>
+
+    <array name="locations">
+        <item>@array/location_1</item>
+        <item>@array/location_2</item>
+        <item>@array/location_3</item>
+        <item>@array/location_4</item>
+    </array>
+
+</resources>

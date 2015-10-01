@@ -85,7 +85,7 @@ public class MoviesFragment extends Fragment {
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             // Inflate a menu resource providing context menu items
             MenuInflater inflater = mode.getMenuInflater();
-            inflater.inflate(R.menu.menu_cab_movies, menu);
+            inflater.inflate(R.menu.menu_cab, menu);
             return true;
         }
 

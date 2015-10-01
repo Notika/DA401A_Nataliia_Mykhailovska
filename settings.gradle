@@ -1,1 +1,1 @@
-include ':assignment_1', ':assignment_2', ':assignment_3'
+include ':assignment_1', ':assignment_2', ':assignment_3', ':assignment_5', ':assignment_4'
