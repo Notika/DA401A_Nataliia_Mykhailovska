@@ -145,7 +145,7 @@ public class MapsActivity extends FragmentActivity implements GoogleApiClient.Co
         newLocation.setLongitude(Double.parseDouble(treasures.get(checkPoints[currentPosition]).lng));
         float dist = imHere.distanceTo(newLocation);
 
-        if (dist < 10) {
+        if (dist < 15) {
             Bundle args = new Bundle();
             android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             DialogFragment newFragment = new MyDialogFragment();
@@ -155,6 +155,7 @@ public class MapsActivity extends FragmentActivity implements GoogleApiClient.Co
             args.putString("alt3", treasures.get(checkPoints[currentPosition]).alt_3);
 
             newFragment.setArguments(args);
+            newFragment.setCancelable(false);
             newFragment.show(ft, "dialog");
 
             // Vibrate
