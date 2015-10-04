@@ -69,6 +69,7 @@ public class ZenFragment extends Fragment {
 
         progressBar = (ProgressBar) v.findViewById(R.id.progressBar);
         progressBar.setProgress(0);
+        progressBar.setVisibility(View.INVISIBLE);
 
         liview = (ListView) v.findViewById(R.id.listView);
         liview.setAdapter(mAdapter);
@@ -138,11 +139,12 @@ public class ZenFragment extends Fragment {
 
     public static void executeTask() {
         progressBar.setIndeterminate(true);
+        progressBar.setVisibility(View.VISIBLE);
 
         if (newTask == null) { // a task can be executed only once
             // Exec async load task
             newTask = new AsyncListViewLoader();
-            newTask.execute("https://api.github.com/zen?access_token= ?_TOKEN_?");
+            newTask.execute("https://api.github.com/zen?access_token=?_TOKEN_?");
         } else if (newTask.getStatus() != AsyncTask.Status.RUNNING) {
             newTask = new AsyncListViewLoader();
             newTask.execute("https://api.github.com/zen?access_token=?_TOKEN_?");
@@ -198,6 +200,7 @@ public class ZenFragment extends Fragment {
             mAdapter.setItemList(result);
             mAdapter.notifyDataSetChanged();
             progressBar.setIndeterminate(false);
+            progressBar.setVisibility(View.INVISIBLE);
         }
     }
 

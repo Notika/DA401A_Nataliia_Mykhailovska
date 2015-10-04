@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +49,11 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         switch (item.getItemId()) {
             // action with ID action_refresh was selected
             case R.id.action_:
-                ZenFragment.executeTask();
+                if (currentPage == 1) {
+                    Toast.makeText(getApplicationContext(), "Info button pressed!", Toast.LENGTH_LONG).show();
+                } else {
+                    ZenFragment.executeTask();
+                }
                 break;
 
             default:

@@ -50,6 +50,7 @@ public class MovieAdapter extends BaseAdapter {
         Movie m = getMovie(position);
 
         ((TextView) v.findViewById(R.id.vDescr)).setText(m.name);
+        ((TextView) v.findViewById(R.id.vYear)).setText(m.year);
         ((ImageView) v.findViewById(R.id.vImage)).setImageResource(m.poster);
 
         return v;
