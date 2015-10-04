@@ -52,7 +52,7 @@ public class MasterFragment extends Fragment {
 
         Log.d(LOG_TAG, "Executing MasterFragment onCreate");
 
-        // Prepare data and create adapter
+        // Create an adapter
         fillData();
         mAdapter = new MovieAdapter(getActivity().getApplicationContext(), movies);
 

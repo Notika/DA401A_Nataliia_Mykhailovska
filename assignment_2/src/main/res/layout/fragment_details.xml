@@ -1,23 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
-    
-<ImageView android:id="@+id/DetailsView"
-   android:layout_width="match_parent"
-   android:layout_height="wrap_content"
-    android:gravity="top"
-    android:layout_weight="1" />
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/DetailsView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="top"
+        android:adjustViewBounds="true"
+        android:scaleType="fitStart" />
 
     <TextView
         android:id="@+id/DetailsText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="top"
-        android:textColor="#CCC"
-        android:textSize="18sp"
-        android:layout_weight="1"
-        android:paddingLeft="10dp"/>
 
-</LinearLayout>
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/DetailsView"
+        android:gravity="top"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:textColor="#CCC"
+        android:textSize="18sp" />
+
+</RelativeLayout>

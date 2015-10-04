@@ -12,10 +12,12 @@ public class MainActivity extends AppCompatActivity implements onShowDetailsList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        MasterFragment masterF = new MasterFragment();
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.container, masterF)
-                .commit();
+        if (savedInstanceState == null) {
+            MasterFragment masterF = new MasterFragment();
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.container, masterF)
+                    .commit();
+        }
     }
 
     @Override
@@ -24,7 +26,7 @@ public class MainActivity extends AppCompatActivity implements onShowDetailsList
         Bundle args = new Bundle();
         DetailFragment detailsF = new DetailFragment();
 
-            args.putInt("id", elementId);
+        args.putInt("id", elementId);
         args.putString("descr", descr);
         args.putString("name", m_name);
 
