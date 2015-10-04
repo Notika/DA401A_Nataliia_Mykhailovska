@@ -61,6 +61,7 @@ public class ZenFragment extends Fragment {
 
         progressBar = (ProgressBar) v.findViewById(R.id.progressBar);
         progressBar.setProgress(0);
+        progressBar.setVisibility(View.INVISIBLE);
 
         ListView liview = (ListView) v.findViewById(R.id.listView);
         liview.setAdapter(mAdapter);
@@ -69,15 +70,16 @@ public class ZenFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                progressBar.setProgress(0);
+                progressBar.setIndeterminate(true);
+                progressBar.setVisibility(View.VISIBLE);
 
                 if (newTask == null) { // a task can be executed only once
                     // Exec async load task
                     newTask = new AsyncListViewLoader();
-                    newTask.execute("https://api.github.com/zen?access_token=5e456ac0f85895163f3a16bc3875ed20e93eeb91");
+                    newTask.execute("https://api.github.com/zen?access_token=449871aa03d978415838008435d0fbb62049713a");
                 } else if (newTask.getStatus() != AsyncTask.Status.RUNNING) {
                     newTask = new AsyncListViewLoader();
-                    newTask.execute("https://api.github.com/zen?access_token=5e456ac0f85895163f3a16bc3875ed20e93eeb91");
+                    newTask.execute("https://api.github.com/zen?access_token=449871aa03d978415838008435d0fbb62049713a");
                 }
             }
         });
@@ -139,7 +141,8 @@ public class ZenFragment extends Fragment {
 
             mAdapter.setItemList(result);
             mAdapter.notifyDataSetChanged();
-            progressBar.setProgress(100);
+            progressBar.setIndeterminate(false);
+            progressBar.setVisibility(View.INVISIBLE);
         }
 
         private Quotepad convertQuote(JSONObject obj) throws JSONException {
