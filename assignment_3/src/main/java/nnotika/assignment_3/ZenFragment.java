@@ -4,24 +4,22 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
+import android.widget.GridView;
 import android.widget.ProgressBar;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ZenFragment extends Fragment {
 
@@ -29,7 +27,7 @@ public class ZenFragment extends Fragment {
     WebListAdapter mAdapter;
     private AsyncListViewLoader newTask;
     ProgressBar progressBar;
-    List<Quotepad> result;
+    ArrayList<Movie> movies = new ArrayList<>();
 
     public ZenFragment() { /* Required empty public constructor */ }
 
@@ -38,9 +36,6 @@ public class ZenFragment extends Fragment {
         super.onAttach(context);
         try {
             activity = (Activity) context;
-            mAdapter = new WebListAdapter(new ArrayList<Quotepad>(), activity.getApplicationContext());
-            result = new ArrayList<>();
-
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString() + "must implement ZenFragment");
         }
@@ -50,6 +45,10 @@ public class ZenFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mAdapter = new WebListAdapter(getActivity().getApplicationContext(), movies);
+
+        // Retain this fragment across configuration changes.
+        setRetainInstance(true);
     }
 
     @Override
@@ -61,28 +60,20 @@ public class ZenFragment extends Fragment {
 
         progressBar = (ProgressBar) v.findViewById(R.id.progressBar);
         progressBar.setProgress(0);
-        progressBar.setVisibility(View.INVISIBLE);
+        progressBar.setIndeterminate(true);
+        progressBar.setVisibility(View.VISIBLE);
 
-        ListView liview = (ListView) v.findViewById(R.id.listView);
-        liview.setAdapter(mAdapter);
+        GridView gridview = (GridView) v.findViewById(R.id.gridview);
+        gridview.setAdapter(mAdapter);
 
-        FloatingActionButton button = (FloatingActionButton) v.findViewById(R.id.fab);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-                progressBar.setIndeterminate(true);
-                progressBar.setVisibility(View.VISIBLE);
-
-                if (newTask == null) { // a task can be executed only once
-                    // Exec async load task
-                    newTask = new AsyncListViewLoader();
-                    newTask.execute("https://api.github.com/zen?access_token=TOKEN");
-                } else if (newTask.getStatus() != AsyncTask.Status.RUNNING) {
-                    newTask = new AsyncListViewLoader();
-                    newTask.execute("https://api.github.com/zen?access_token=TOKEN");
-                }
-            }
-        });
+        if (newTask == null) { // a task can be executed only once
+            // Exec async load task
+            newTask = new AsyncListViewLoader();
+            newTask.execute("https://api-v2launch.trakt.tv/movies/popular?extended=images");
+        } else if (newTask.getStatus() != AsyncTask.Status.RUNNING) {
+            newTask = new AsyncListViewLoader();
+            newTask.execute("https://api-v2launch.trakt.tv/movies/popular?extended=images");
+        }
         return v;
     }
 
@@ -92,7 +83,7 @@ public class ZenFragment extends Fragment {
         super.onDestroy();
     }
 
-    private class AsyncListViewLoader extends AsyncTask<String, Void, List<Quotepad>> {
+    private class AsyncListViewLoader extends AsyncTask<String, Void, ArrayList<Movie>> {
 
         @Override
         protected void onPreExecute() {
@@ -101,54 +92,70 @@ public class ZenFragment extends Fragment {
         }
 
         @Override
-        protected List<Quotepad> doInBackground(String... params) {
-
+        protected ArrayList<Movie> doInBackground(String... params) {
+            BufferedReader rd;
+            ArrayList<Movie> films = new ArrayList<>();
+            StringBuilder sb;
+            String line;
+            HttpURLConnection conn = null;
             try {
                 URL u = new URL(params[0]);
 
-                HttpURLConnection conn = (HttpURLConnection) u.openConnection();
+                conn = (HttpURLConnection) u.openConnection();
+                conn.setRequestProperty("trakt-api-version", "2");
+                conn.setRequestProperty("trakt-api-key", "492a165927bfaff86b3030454939981d4e2d94c50515e15e42f41fbf57481a44");
+                conn.setRequestProperty("Content-Type", "application/json");
                 conn.setRequestMethod("GET");
-
                 conn.connect();
-                InputStream is = conn.getInputStream();
 
-                // Read the stream
-                byte[] b = new byte[512];
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                // read the result from the server
+                rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                sb = new StringBuilder();
 
-                while (is.read(b) != -1)
-                    baos.write(b);
-
-                String JSONResp = "[{\"quote\":" + " \"" + baos.toString();
-                String newName = JSONResp.substring(0, JSONResp.indexOf(".") + 1) + "\"}]";
-
-
-                JSONArray arr = new JSONArray(newName);
-                for (int i = 0; i < arr.length(); i++) {
-                    result.add(convertQuote(arr.getJSONObject(i)));
+                while ((line = rd.readLine()) != null) {
+                    sb.append(line);
                 }
 
-                return result;
-            } catch (Throwable t) {
-                t.printStackTrace();
+                try {
+                    JSONArray ridesJsonArray = new JSONArray(sb.toString());
+
+                    for (int i = 0; i < ridesJsonArray.length(); i++) {
+                        Movie movie = new Movie("0", "0", "0");
+                        JSONObject o = ridesJsonArray.optJSONObject(i);
+                        movie.setName(o.optString("title"));
+                        movie.setYear(o.optString("year"));
+                        JSONObject images = o.getJSONObject("images");
+                        JSONObject type = images.getJSONObject("poster");
+                        movie.setImgUrl(type.optString("thumb"));
+                        films.add(movie);
+                    }
+                    return films;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                // close the connection
+                conn.disconnect();
             }
-            return null;
+            return films;
         }
 
         @Override
-        protected void onPostExecute(List<Quotepad> result) {
+        protected void onPostExecute(ArrayList<Movie> result) {
             super.onPostExecute(result);
 
-            mAdapter.setItemList(result);
-            mAdapter.notifyDataSetChanged();
+            movies.clear();
+            movies.addAll(result);
+
+            for (Movie m : movies) {
+                // Start to load images for each movie
+                m.loadImage(mAdapter);
+            }
             progressBar.setIndeterminate(false);
             progressBar.setVisibility(View.INVISIBLE);
-        }
-
-        private Quotepad convertQuote(JSONObject obj) throws JSONException {
-
-            String webQuote = obj.getString("quote");
-            return new Quotepad(webQuote);
         }
     }
 }

@@ -4,64 +4,72 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.List;
+import java.util.ArrayList;
 
-/**
- * Created by Notika on 9/27/2015.
- */
-public class WebListAdapter extends ArrayAdapter<Quotepad> {
+public class WebListAdapter extends BaseAdapter {
 
-    private List<Quotepad> itemList;
-    private Context context;
+    private Context mContext;
+    LayoutInflater lInflater;
+    ArrayList<Movie> objects;
 
-    public WebListAdapter(List<Quotepad> itemList, Context ctx) {
-        super(ctx, android.R.layout.simple_list_item_1, itemList);
-        this.itemList = itemList;
-        this.context = ctx;
+    WebListAdapter(Context c, ArrayList<Movie> movies) {
+        mContext = c;
+        objects = movies;
+        lInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
+
+    Movie getMovie(int position) {
+        return ((Movie) getItem(position));
     }
 
     public int getCount() {
-        if (itemList != null)
-            return itemList.size();
-        return 0;
-    }
-
-    public Quotepad getItem(int position) {
-        if (itemList != null)
-            return itemList.get(position);
-        return null;
-    }
-
-    public long getItemId(int position) {
-        if (itemList != null)
-            return itemList.get(position).hashCode();
-        return 0;
+        return objects.size();
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public Object getItem(int position) {
+        return objects.get(position);
+    }
 
-        View v = convertView;
-        if (v == null) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v = inflater.inflate(R.layout.list_item, null);
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    // create a new ViewHolder for view referenced by the Adapter
+    public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder holder;
+        if (convertView == null) {
+            convertView = lInflater.inflate(R.layout.item, parent, false);
+            holder = new ViewHolder();
+            holder.name = (TextView) convertView.findViewById(R.id.vDescr);
+            holder.year = (TextView) convertView.findViewById(R.id.vYear);
+            holder.img = (ImageView) convertView.findViewById(R.id.vImage);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
         }
 
-        Quotepad c = itemList.get(position);
-        TextView text = (TextView) v.findViewById(R.id.quote);
-        text.setText(c.getQuote());
-
-        return v;
+        Movie m = getMovie(position);
+        holder.name.setText(m.getName());
+        holder.year.setText(m.getYear());
+        if (m.getImage() != null) {
+            holder.img.setImageBitmap(m.getImage());
+        } else {
+            // Default image
+            holder.img.setImageResource(R.drawable.ic_launcher);
+        }
+        return convertView;
     }
 
-    public List<Quotepad> getItemList() {
-        return itemList;
-    }
-
-    public void setItemList(List<Quotepad> itemList) {
-        this.itemList = itemList;
+    static class ViewHolder {
+        TextView name;
+        TextView year;
+        ImageView img;
     }
 }
