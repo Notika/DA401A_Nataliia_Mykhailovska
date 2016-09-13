@@ -1,5 +1,5 @@
 # Assignments for course Application development for Android DA401A_Nataliia_Mykhailovska
- Solutiosn to these assignments should be presented as a separate Android Studio module contained within your Android Studio project for this course.
+ Solutions to these assignments should be presented as a separate Android Studio module contained within your Android Studio project for this course.
 ## Assignment 1
 ### Description
 In this assignment you'll familiarize yourself with the tools used for developing Android applications and you get an overview of the structure of an application. In the assignment we will build a simple application that contains an Activity and two Fragments.
@@ -47,12 +47,9 @@ info for specific movie.
 Helpful search queries: “Fragment Bundle”.
 ### Requirements
 #### Pass (G)
-• Application should have one activity, two fragments. Implement master/detail
-navigation fow with proper back navigation (fragment a b, → then b → a when back
-button is pressed)
-• Master view presents movie collection with posters, year and title. Detail view show
-fanart, year, title and overview.
-• Customized color palette. All layouts should follow the Material Design Guidelines.
+* Application should have one activity, two fragments. Implement master/detail navigation fow with proper back navigation (fragment a b, → then b → a when back button is pressed)
+* Master view presents movie collection with posters, year and title. Detail view show fanart, year, title and overview.
+* Customized color palette. All layouts should follow the Material Design Guidelines.
 #### Pass with Distinction (VG)
 • Different layouts for landscape and portrait orientations in both fragments.
 
